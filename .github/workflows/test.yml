@@ -26,6 +26,14 @@ jobs:
         cd $GITHUB_WORKSPACE
         docker-compose build
 
+    - name: Spin up DNS servers
+      run: |
+        docker-compose up -d
+
+    - name: Setup DNS data
+      run: |
+        python3 setup.py
+
     - name: Install Requirements
       run: |
         pip3 install dnspython requests  # -r requirements.txt
