@@ -22,7 +22,7 @@ record stating the purpose of the zones.
 The recursor, available at `localhost:5302` will be equipped with an appropriate trust anchor for `.example`, so that
 queries will validated and answered with authenticated data (AD) bit:
 
-```shell
+```
 $ dig TXT @localhost -p 5302 falcon.example. +short +dnssec
 [...]
 
