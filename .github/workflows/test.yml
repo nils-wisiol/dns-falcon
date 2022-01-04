@@ -1,0 +1,33 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, 3.10]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Build Images
+      run: |
+        cd $GITHUB_WORKSPACE
+        docker-compose build
+
+    - name: Install Requirements
+      run: |
+        pip3 install dnspython requests  # -r requirements.txt
+        pip3 freeze
+
+    - name: Pytest
+      run: python3 -m pytest test
