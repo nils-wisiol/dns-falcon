@@ -1,0 +1,40 @@
+version: '3.7'
+
+networks:
+  internal:
+    ipam:
+      config:
+        - subnet: 172.20.53.0/24
+
+services:
+  auth:
+    build:
+      context: pdns
+      dockerfile: Dockerfile-auth
+    volumes:
+      - ./auth.conf:/etc/powerdns/pdns.d/auth.conf
+    environment:
+      - PDNS_AUTH_API_KEY
+    ports:
+      - "5301:53/tcp"
+      - "5301:53/udp"
+      - "5391:8081/tcp"
+    networks:
+      internal:
+        ipv4_address: 172.20.53.101
+
+  recursor:
+    build:
+      context: pdns
+      dockerfile: Dockerfile-recursor
+    volumes:
+      - ./recursor.conf:/etc/powerdns/recursor.d/recursor.conf
+    environment:
+      - PDNS_RECURSOR_API_KEY
+    ports:
+      - "5302:53/tcp"
+      - "5302:53/udp"
+      - "5392:8082/tcp"
+    networks:
+      internal:
+        ipv4_address: 172.20.53.102
