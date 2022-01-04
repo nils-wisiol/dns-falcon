@@ -43,13 +43,12 @@ falcon.example.		3590	IN	RRSIG	TXT 17 2 3600 20220113000000 20211223000000 948 f
 **Note: Not yet completely implemented!**
 
 To use the Internet Test Setup, a public IP address for the authoritative name server is required, and a name needs to
-be delegated to this server. Given a deSEC.io user name and access token, this repository can take care of delegation
+be delegated to this server. Given a deSEC.io domain name and access token, this repository can take care of delegation
 itself. To activate the Internet Test Setup, add the following variables to the `.env` file:
 
 ```
 PUBLIC_IP4_ADDRESSES=10.1.1.1,10.2.2.2
 PUBLIC_IP6_ADDRESSES=fe80::1337,fe80::4711
-DESEC_USER=someuser@example.com
 DESEC_TOKEN=123456789abcedfghij
 DESEC_DOMAIN=mytest.dedyn.io
 ```
@@ -57,7 +56,7 @@ DESEC_DOMAIN=mytest.dedyn.io
 At least one value for `PUBLIC_IP4_ADDRESSES` or `PUBLIC_IP6_ADDRESSES` is required. Note that if only supplied an IP4
 or IP6 address, the server will not be reachable from the other IP space, which may break testing for some clients.
 
-If you do not have a deSEC account, `DESEC_USER` and `DESEC_TOKEN` can be obtained free of charge from desec.io.
+If you do not have a deSEC account, a `DESEC_TOKEN` can be obtained free of charge from desec.io.
 Otherwise, use your existing account.
 
 `DESEC_DOMAIN` defines under which name the test setup will be reachable. If this domain does not exist on your deSEC
