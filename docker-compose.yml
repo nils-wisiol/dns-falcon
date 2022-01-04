@@ -29,8 +29,10 @@ services:
       dockerfile: Dockerfile-recursor
     volumes:
       - ./recursor.conf:/etc/powerdns/recursor.d/recursor.conf
+      - ./recursor.lua:/etc/powerdns/recursor.lua
     environment:
       - PDNS_RECURSOR_API_KEY='insecure'
+      - DESEC_DOMAIN
     ports:
       - "127.0.0.1:5302:53/tcp"
       - "127.0.0.1:5302:53/udp"
