@@ -32,9 +32,9 @@ services:
     environment:
       - PDNS_RECURSOR_API_KEY
     ports:
-      - "5302:53/tcp"
-      - "5302:53/udp"
-      - "5392:8082/tcp"
+      - "127.0.0.1:5302:53/tcp"
+      - "127.0.0.1:5302:53/udp"
+      - "127.0.0.1:5392:8082/tcp"
     networks:
       internal:
         ipv4_address: 172.20.53.102
