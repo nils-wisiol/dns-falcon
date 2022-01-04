@@ -14,11 +14,11 @@ services:
     volumes:
       - ./auth.conf:/etc/powerdns/pdns.d/auth.conf
     environment:
-      - PDNS_AUTH_API_KEY
+      - PDNS_AUTH_API_KEY='insecure'
     ports:
       - "5301:53/tcp"
       - "5301:53/udp"
-      - "5391:8081/tcp"
+      - "127.0.0.1:5391:8081/tcp"
     networks:
       internal:
         ipv4_address: 172.20.53.101
@@ -30,7 +30,7 @@ services:
     volumes:
       - ./recursor.conf:/etc/powerdns/recursor.d/recursor.conf
     environment:
-      - PDNS_RECURSOR_API_KEY
+      - PDNS_RECURSOR_API_KEY='insecure'
     ports:
       - "127.0.0.1:5302:53/tcp"
       - "127.0.0.1:5302:53/udp"
