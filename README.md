@@ -9,7 +9,7 @@ This repository can be used to provide either a local test setup, serve as a tes
 ### Local Test Setup
 
 To test the PoC locally, this repository contains an authoritative DNS server *and* a DNS recursor supporting FALCON.
-Run `./setup.sh` to create an initial setup. The authoritative server wil be configured with the following zones under
+Run `setup.py` to create an initial setup. The authoritative server wil be configured with the following zones under
 `.example.` and be available at `localhost:5301` (tcp/udp):
 
 - `classic.example.`: signed with classical DNSSEC
