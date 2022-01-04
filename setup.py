@@ -24,11 +24,11 @@ def run(args, stdin: str = None) -> str:
 
 
 def auth(*args) -> str:
-    return run(("docker-compose", "exec", "auth", "pdnsutil") + args)
+    return run(("docker-compose", "exec", "-T", "auth", "pdnsutil") + args)
 
 
 def recursor(*args) -> str:
-    return run(("docker-compose", "exec", "recursor", "rec_control") + args)
+    return run(("docker-compose", "exec", "-T", "recursor", "rec_control") + args)
 
 
 def add_zone(name: dns.name.Name):
