@@ -36,7 +36,7 @@ jobs:
 
     - name: Install Requirements
       run: |
-        pip3 install dnspython requests  # -r requirements.txt
+        pip3 install dnspython requests pytest  # -r requirements.txt
         pip3 freeze
 
     - name: Pytest
