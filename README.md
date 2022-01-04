@@ -23,7 +23,7 @@ The recursor, available at `localhost:5302` will be equipped with an appropriate
 queries will validated and answered with authenticated data (AD) bit:
 
 ```
-$ dig TXT @localhost -p 5302 falcon.example. +short +dnssec
+$ dig TXT @localhost -p 5302 falcon.example. +dnssec
 [...]
 
 ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 55224
