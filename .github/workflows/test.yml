@@ -30,14 +30,14 @@ jobs:
       run: |
         docker-compose up -d
 
-    - name: Setup DNS data
-      run: |
-        python3 setup.py
-
     - name: Install Requirements
       run: |
         pip3 install dnspython requests pytest  # -r requirements.txt
         pip3 freeze
+
+    - name: Setup DNS data
+      run: |
+        python3 setup.py
 
     - name: Pytest
       run: python3 -m pytest test
