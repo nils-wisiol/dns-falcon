@@ -122,4 +122,5 @@ docker-compose exec auth bash -c 'echo ".dump" | sqlite3 /var/lib/powerdns/pdns.
 
 ## Acknowledgements
 
-This work is based on the pdns fork of @gothremote, who worked on this for this Master's thesis.
+This work is based on the PowerDNS and openssl forks of [@gothremote](https://github.com/gothremote/),
+who worked on this for his Master's thesis.
