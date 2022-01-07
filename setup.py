@@ -136,7 +136,7 @@ def delegate_desec(zone: dns.name.Name, parent: dns.name.Name, ns_ip4_set: Set[s
     ], indent=4)
     logging.debug(f"Sending to deSEC:\n\n{data}\n\n")
     response = requests.patch(
-        url=f"https://desec.io/api/v1/domains/{parent.to_text().removesuffix('.')}/rrsets/",
+        url=f"https://desec.io/api/v1/domains/{parent.to_text().rstrip('.')}/rrsets/",
         headers={
             'Authorization': f'Token {os.environ["DESEC_TOKEN"]}',
             'Content-Type': 'application/json',
