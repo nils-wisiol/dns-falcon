@@ -13,14 +13,14 @@ To test the PoC locally, clone this repository, install docker and docker-compos
 
 ```
 docker-compose up -d
-python3.9 setup.py
+python3 setup.py
 ```
 
 To run `setup.py`, Python 3.9, and some packages are required. If you want a clean install, create a virtual
 environment and then run the setup:
 
 ```
-python3.9 -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 python3 -m pip install dnspython requests  # TODO include requirements.txt
 python3 setup.py
@@ -74,7 +74,7 @@ or IP6 address, the server will not be reachable from the other IP space, which 
 If you do not have a deSEC account, a `DESEC_TOKEN` can be obtained free of charge from desec.io.
 Otherwise, use your existing account.
 
-After filling in the values, run the setup script again: `python3.9 setup.py`.  # TODO make sure it doesn't duplicate
+After filling in the values, run the setup script again: `python3 setup.py`.  # TODO make sure it doesn't duplicate
 The setup will create additional zones on your authoritative server,
 
 - `classic.example.$DESEC_DOMAIN`: signed with classical DNSSEC

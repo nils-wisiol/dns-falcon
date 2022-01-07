@@ -18,7 +18,7 @@ NS = dns.rdatatype.from_text("NS")
 
 def run(args, stdin: str = None) -> str:
     logging.debug(f"Running {args}")
-    stdout = subprocess.run(args, stdout=subprocess.PIPE, text=True, input=stdin).stdout
+    stdout = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True, input=stdin).stdout
     logging.info(f"stdout: {stdout}")
     return stdout
 
@@ -50,13 +50,32 @@ def add_zone_falcon(name: dns.name.Name):
 
 
 def get_ds(name: dns.name.Name):
+    def remove_prefix(s, prefix):
+        return s[s.startswith(prefix) and len(prefix):]
+
+    pdns_lines = auth("export-zone-ds", name.to_text()).strip().split("\n")
     ds_texts = [
         # remove extra information from pdnsutil output
-        line.removeprefix(name.to_text()).lstrip().removeprefix(
-            'IN').lstrip().removeprefix('DS').lstrip().split(';')[0].strip()
-        for line in auth("export-zone-ds", name.to_text()).strip().split("\n")
+        remove_prefix(
+            remove_prefix(
+                remove_prefix(
+                    line,
+                    name.to_text()  # first remove the name
+                ).lstrip(),
+                'IN',  # then remove the IN
+            ).lstrip(),
+            'DS'  # then remove the DS
+        ).lstrip().split(';')[0].strip()  # then remove the trailing comment
+        for line in pdns_lines
     ]
-    return dns.rrset.from_text_list(name, 0, IN, DS, ds_texts)
+
+    try:
+        return dns.rrset.from_text_list(name, 0, IN, DS, ds_texts)
+    except dns.exception.SyntaxError:
+        n = '\n'
+        logging.debug(f"Could not obtain DS records for {name.to_text()}. "
+                      f"pdns output was \n\n{n.join(pdns_lines)}\n\ndnspython input was\n\n{n.join(ds_texts)}")
+        raise
 
 
 def set_trustanchor_recursor(name: dns.name.Name):
@@ -141,7 +160,7 @@ def add_test_setup(parent: dns.name.Name, ns_ip4_set: Set[str], ns_ip6_set: Set[
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG, force=True)
+    logging.basicConfig(level=logging.DEBUG)
 
     local_example = dns.name.Name(("example", ""))
     local_ns_ip4 = "172.20.53.101"
