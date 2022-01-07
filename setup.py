@@ -33,10 +33,12 @@ def recursor(*args) -> str:
 
 def add_zone(name: dns.name.Name):
     auth("create-zone", name.to_text())
-    auth("add-record", name.to_text(), "@", "A", "127.0.0.1")
-    auth("add-record", name.to_text(), "@", "A", "127.0.0.2")
-    auth("add-record", name.to_text(), "@", "AAAA", "::1")
-    auth("add-record", name.to_text(), "@", "TXT", "\"FALCON DNSSEQ PoC; details: github.com/nils-wisiol/dns-falcon\"")
+    for subname in ["@", "*"]:
+        auth("add-record", name.to_text(), subname, "A", "127.0.0.1")
+        auth("add-record", name.to_text(), subname, "A", "127.0.0.2")
+        auth("add-record", name.to_text(), subname, "AAAA", "::1")
+        auth("add-record", name.to_text(), subname, "TXT",
+             "\"FALCON DNSSEQ PoC; details: github.com/nils-wisiol/dns-falcon\"")
 
 
 def add_zone_classic(name: dns.name.Name):

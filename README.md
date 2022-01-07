@@ -32,6 +32,7 @@ The setup script will configure the authoritative with the following zones under
 - `falcon.example.`: signed with FALCON
 
 Both zones contain A and AAAA records pointing to localhost, as well as a TXT record stating the purpose of the zones.
+The zones are also equipped with A, AAAA, and TXT wildcard records.
 You can query the authoritative DNS server directly at `localhost:5301` (tcp/udp).
 
 The recursor, available at `localhost:5302` (tcp/udp), is now configured with the appropriate trust anchor for
@@ -125,6 +126,14 @@ Now that your PoC is globally reachable, you can use any other resolver to query
 However, observe that other resolvers do not support FALCON signatures and thus do not set the authenticated data (AD)
 bit.
 
+## Performance
+
+The recursor in this repository is configured to use limited caching.
+In particular, aggressive NSEC caching is disabled, which means that requests matching wildcard records trigger
+signature validation.
+Together with the wildcards configured for the test domains,
+this can be used to compare the performance of various signature validation algorithms.
+
 ## Tools
 
 To debug queries against the recursor, set up the query trace:
@@ -137,6 +146,12 @@ To export all zone data from the authoritative DNS server, use:
 
 ```
 docker-compose exec auth bash -c 'echo ".dump" | sqlite3 /var/lib/powerdns/pdns.sqlite3'
+```
+
+To dump recursor statistics into the log file, including the percentage of cache hits, use:
+
+```
+docker-compose exec recursor pkill -SIGUSR1 pdns
 ```
 
 ## Acknowledgements
