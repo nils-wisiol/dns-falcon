@@ -113,13 +113,13 @@ def delegate_desec(zone: dns.name.Name, parent: dns.name.Name, ns_ip4_set: Set[s
             'subname': (ns - parent).to_text(),
             'ttl': 60,
             'type': 'A',
-            'records': [ns_ip4 for ns_ip4 in ns_ip4_set],
+            'records': list(ns_ip4_set),
         },
         {
             'subname': (ns - parent).to_text(),
             'ttl': 60,
             'type': 'AAAA',
-            'records': [ns_ip6 for ns_ip6 in ns_ip6_set],
+            'records': list(ns_ip6_set),
         },
         {
             'subname': (zone - parent).to_text(),
