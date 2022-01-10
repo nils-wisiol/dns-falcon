@@ -153,6 +153,12 @@ To debug queries against the recursor, set up the query trace:
 docker-compose exec recursor rec_control trace-regex '.*example.*'
 ```
 
+To list all zones the authoritative DNS server serves, use:
+
+```
+docker-compose exec auth pdnsutil list-all-zones
+```
+
 To export all zone data from the authoritative DNS server, use:
 
 ```
