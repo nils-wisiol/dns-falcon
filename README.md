@@ -58,8 +58,10 @@ Congratulations, you have just used FALCON to authenticate a DNSSEC query!
 ### Internet Test Setup
 
 To use the Internet Test Setup, a public IP address for the authoritative name server is required, and a name needs to
-be delegated to this server. Given a deSEC.io domain name and access token, this repository can take care of delegation
-itself. To activate the Internet Test Setup, add the following variables to the `.env` file:
+be delegated to this server.
+Also, docker must run **without** the userland proxy.
+Given a deSEC.io domain name and access token, this repository can take care of delegation itself.
+To activate the Internet Test Setup, add the following variables to the `.env` file:
 (A template can be found in `.env.dist`.)
 
 ```
