@@ -15,6 +15,14 @@ IN = dns.rdataclass.from_text("IN")
 DS = dns.rdatatype.from_text("DS")
 NS = dns.rdatatype.from_text("NS")
 
+DEFAULT_ALGORITHM = "ecdsa256"
+SUPPORTED_ALGORITHMS = {
+    5: "rsasha1", 8: "rsasha256", 10: "rsasha512",  # pdns also supports 7: "rsasha1-nsec3-sha1",
+    13: "ecdsa256", 14: "ecdsa384",
+    15: "ed25519", 16: "ed448",
+    17: "falcon",
+}
+
 
 def run(args, stdin: str = None) -> str:
     logging.debug(f"Running {args}")
@@ -31,7 +39,7 @@ def recursor(*args) -> str:
     return run(("docker-compose", "exec", "-T", "recursor", "rec_control") + args)
 
 
-def add_zone(name: dns.name.Name):
+def add_zone(name: dns.name.Name, algorithm: str):
     auth("create-zone", name.to_text())
     for subname in ["@", "*"]:
         auth("add-record", name.to_text(), subname, "A", "127.0.0.1")
@@ -39,16 +47,10 @@ def add_zone(name: dns.name.Name):
         auth("add-record", name.to_text(), subname, "AAAA", "::1")
         auth("add-record", name.to_text(), subname, "TXT",
              "\"FALCON DNSSEQ PoC; details: github.com/nils-wisiol/dns-falcon\"")
-
-
-def add_zone_classic(name: dns.name.Name):
-    add_zone(name)
-    auth("secure-zone", name.to_text())
-
-
-def add_zone_falcon(name: dns.name.Name):
-    add_zone(name)
-    auth("add-zone-key", name.to_text(), "active", "falcon")
+    if algorithm.startswith('rsa'):
+        auth("add-zone-key", name.to_text(), "2048", "active", algorithm)
+    else:
+        auth("add-zone-key", name.to_text(), "active", algorithm)
 
 
 def get_ds(name: dns.name.Name):
@@ -150,15 +152,12 @@ def delegate_desec(zone: dns.name.Name, parent: dns.name.Name, ns_ip4_set: Set[s
 
 
 def add_test_setup(parent: dns.name.Name, ns_ip4_set: Set[str], ns_ip6_set: Set[str]):
-    add_zone_classic(parent)
+    add_zone(parent, DEFAULT_ALGORITHM)
 
-    classic_example = dns.name.Name(("classic",)) + parent
-    add_zone_classic(classic_example)
-    delegate_auth(classic_example, parent, ns_ip4_set, ns_ip6_set)
-
-    falcon_example = dns.name.Name(("falcon",)) + parent
-    add_zone_falcon(falcon_example)
-    delegate_auth(falcon_example, parent, ns_ip4_set, ns_ip6_set)
+    for algorithm in SUPPORTED_ALGORITHMS.values():
+        classic_example = dns.name.Name((algorithm,)) + parent
+        add_zone(classic_example, algorithm)
+        delegate_auth(classic_example, parent, ns_ip4_set, ns_ip6_set)
 
 
 if __name__ == "__main__":

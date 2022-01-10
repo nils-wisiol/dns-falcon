@@ -28,8 +28,10 @@ python3 setup.py
 
 The setup script will configure the authoritative with the following zones under `.example.`:
 
-- `classic.example.`: signed with classical DNSSEC
-- `falcon.example.`: signed with FALCON
+- signed with 2048-bit RSA: `rsasha1.example.`, `rsasha256.example.`, `rsasha512.example.`
+- signed with elliptic curve algorithms: `ecdsa256.example.`, `ecdsa384.example.`
+- signed with Edwards curve algorithhms: `ed25519.example.`, `ed448.example.`
+- signed with post-quantum algorithm FALCON: `falcon.example.`
 
 Both zones contain A and AAAA records pointing to localhost, as well as a TXT record stating the purpose of the zones.
 The zones are also equipped with A, AAAA, and TXT wildcard records.
@@ -97,8 +99,11 @@ echo -e "nameserver 1.1.1.1\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf
 After setting up the `.env` file, run the setup script again: `python3 setup.py`.  # TODO make sure it doesn't duplicate
 The setup will create additional zones on your authoritative server,
 
-- `classic.example.$DESEC_DOMAIN`: signed with classical DNSSEC
-- `falcon.example.$DESEC_DOMAIN`: signed with FALCON
+- signed with 2048-bit RSA: `rsasha1.example.${DESEC_DOMAIN}.`, `rsasha256.example.${DESEC_DOMAIN}.`,
+    `rsasha512.example.${DESEC_DOMAIN}.`
+- signed with elliptic curve algorithms: `ecdsa256.example.${DESEC_DOMAIN}.`, `ecdsa384.example.${DESEC_DOMAIN}.`
+- signed with Edwards curve algorithhms: `ed25519.example.${DESEC_DOMAIN}.`, `ed448.example.${DESEC_DOMAIN}.`
+- signed with post-quantum algorithm FALCON: `falcon.example.${DESEC_DOMAIN}.`
 
 and use the `DESEC_TOKEN` to delegate `example.$DESEC_DOMAIN` to your local authoritative name server. (Before running,
 make your `DESEC_DOMAIN` exists in your deSEC account.)
@@ -133,6 +138,12 @@ In particular, aggressive NSEC caching is disabled, which means that requests ma
 signature validation.
 Together with the wildcards configured for the test domains,
 this can be used to compare the performance of various signature validation algorithms.
+
+The authoritative DNS server also ships tooling to measure crypto library speed:
+
+```
+docker-compose exec auth pdnsutil test-algorithms
+```
 
 ## Tools
 
