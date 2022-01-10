@@ -74,7 +74,24 @@ or IP6 address, the server will not be reachable from the other IP space, which 
 If you do not have a deSEC account, a `DESEC_TOKEN` can be obtained free of charge from desec.io.
 Otherwise, use your existing account.
 
-After filling in the values, run the setup script again: `python3 setup.py`.  # TODO make sure it doesn't duplicate
+For connectivity with the global DNS, it will be required that the authoritative server can be reached on port 53.
+This can be achieved by setting this value in your `.env` file:
+
+```
+PUBLIC_TCP_UDP_PORT_AUTH=53
+```
+
+This can only work if there is no other service running on port 53.
+However, some operating systems run a stub resolver on port 53.
+On Ubuntu, the local stub resolver can be replaced with using Google's and/or Cloudflare's resolver service by using
+
+```
+systemctl disable systemd-resolved
+systemctl stop systemd-resolved
+echo -e "nameserver 1.1.1.1\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+```
+
+After setting up the `.env` file, run the setup script again: `python3 setup.py`.  # TODO make sure it doesn't duplicate
 The setup will create additional zones on your authoritative server,
 
 - `classic.example.$DESEC_DOMAIN`: signed with classical DNSSEC

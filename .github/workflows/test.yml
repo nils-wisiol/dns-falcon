@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  PUBLIC_TCP_UDP_PORT_AUTH: 5301
+  PUBLIC_TCP_UDP_PORT_RECURSOR: 5302
+
 jobs:
   build:
     runs-on: ubuntu-latest

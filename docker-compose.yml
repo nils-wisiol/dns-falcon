@@ -16,8 +16,8 @@ services:
     environment:
       - PDNS_AUTH_API_KEY='insecure'
     ports:
-      - "5301:53/tcp"
-      - "5301:53/udp"
+      - "${PUBLIC_TCP_UDP_PORT_AUTH:-5301}:53/tcp"
+      - "${PUBLIC_TCP_UDP_PORT_AUTH:-5301}:53/udp"
       - "127.0.0.1:5391:8081/tcp"
     networks:
       internal:
@@ -34,8 +34,8 @@ services:
       - PDNS_RECURSOR_API_KEY='insecure'
       - DESEC_DOMAIN
     ports:
-      - "5302:53/tcp"
-      - "5302:53/udp"
+      - "${PUBLIC_TCP_UDP_PORT_RECURSOR:-5302}:53/tcp"
+      - "${PUBLIC_TCP_UDP_PORT_RECURSOR:-5302}:53/udp"
       - "127.0.0.1:5392:8082/tcp"
     networks:
       internal:
