@@ -11,6 +11,7 @@ services:
     build:
       context: pdns
       dockerfile: Dockerfile-auth
+    user: root
     volumes:
       - ./auth.conf:/etc/powerdns/pdns.d/auth.conf
     environment:
