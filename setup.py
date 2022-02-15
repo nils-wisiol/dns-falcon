@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import subprocess
-from typing import Set
+from typing import Set, Tuple
 
 import dns.dnssec
 import dns.name
@@ -24,19 +24,21 @@ SUPPORTED_ALGORITHMS = {
 }
 
 
-def run(args, stdin: str = None) -> str:
+def run(args, stdin: str = None) -> Tuple[str, str]:
     logging.debug(f"Running {args}")
-    stdout = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True, input=stdin).stdout
-    logging.info(f"stdout: {stdout}")
-    return stdout
+    result = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, input=stdin)
+    logging.info(f"stdout: {result.stdout}")
+    return result.stdout, result.stderr
 
 
 def auth(*args) -> str:
-    return run(("docker-compose", "exec", "-T", "auth", "pdnsutil") + args)
+    stdout, _ = run(("docker-compose", "exec", "-T", "auth", "pdnsutil") + args)
+    return stdout
 
 
 def recursor(*args) -> str:
-    return run(("docker-compose", "exec", "-T", "recursor", "rec_control") + args)
+    stdout, _ = run(("docker-compose", "exec", "-T", "recursor", "rec_control") + args)
+    return stdout
 
 
 def add_zone(name: dns.name.Name, algorithm: str):
