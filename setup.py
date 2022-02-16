@@ -41,8 +41,11 @@ def recursor(*args) -> str:
     return stdout
 
 
-def add_zone(name: dns.name.Name, algorithm: str):
+def add_zone(name: dns.name.Name, algorithm: str, nsec: int = 1):
+    assert nsec in {1, 3}
     auth("create-zone", name.to_text())
+    if nsec == 3:
+        auth("set-nsec3", name.to_text())
     for subname in ["@", "*"]:
         auth("add-record", name.to_text(), subname, "A", "127.0.0.1")
         auth("add-record", name.to_text(), subname, "A", "127.0.0.2")
@@ -156,10 +159,11 @@ def delegate_desec(zone: dns.name.Name, parent: dns.name.Name, ns_ip4_set: Set[s
 def add_test_setup(parent: dns.name.Name, ns_ip4_set: Set[str], ns_ip6_set: Set[str]):
     add_zone(parent, DEFAULT_ALGORITHM)
 
-    for algorithm in SUPPORTED_ALGORITHMS.values():
-        classic_example = dns.name.Name((algorithm,)) + parent
-        add_zone(classic_example, algorithm)
-        delegate_auth(classic_example, parent, ns_ip4_set, ns_ip6_set)
+    for nsec in [1, 3]:
+        for algorithm in SUPPORTED_ALGORITHMS.values():
+            classic_example = dns.name.Name((algorithm + ('3' if nsec == 3 else ''),)) + parent
+            add_zone(classic_example, algorithm, nsec)
+            delegate_auth(classic_example, parent, ns_ip4_set, ns_ip6_set)
 
 
 if __name__ == "__main__":
