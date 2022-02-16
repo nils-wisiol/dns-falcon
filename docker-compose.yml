@@ -30,6 +30,7 @@ services:
     build:
       context: pdns
       dockerfile: Dockerfile-recursor
+    user: root
     volumes:
       - ./recursor.conf:/etc/powerdns/recursor.d/recursor.conf
       - ./recursor.lua:/etc/powerdns/recursor.lua
