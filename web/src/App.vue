@@ -9,6 +9,22 @@
       <v-spacer></v-spacer>
 
       <v-btn
+        href="https://indico.dns-oarc.net/event/42/contributions/902/"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Talk at OARC 37</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+      <v-btn
+        href="https://dnsviz.net/d/falcon.example.falcon.dedyn.io/dnssec/"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">FALCON-512 Test Zone on DNSViz</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+      <v-btn
         href="https://github.com/nils-wisiol/dns-falcon/"
         target="_blank"
         text
