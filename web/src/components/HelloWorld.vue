@@ -97,6 +97,7 @@ import {RECURSION_DESIRED} from 'dns-packet'
     methods: {
       query: function () {
         this.working = true
+        this.err = false
         this.q = {
             type: 'query',
             id: 0,
