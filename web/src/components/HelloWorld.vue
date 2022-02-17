@@ -21,9 +21,9 @@
         <p class="subheading font-weight-regular">
           Send queries to our post-quantum enabled verifying resolver!
           To obtain responses signed with FALCON-512, query <code>A</code>, <code>AAAA</code>, and <code>TXT</code>
-          records at <code>falcon.example.</code> and <code>*.falcon.example</code>.
-          To get classical signatures, try <code>rsasha256.example.</code>, <code>ecdsa256.example.</code>,
-          <code>ed25519.example</code>, and the like.
+          records at <code>falcon.example.falcon.dedyn.io.</code> and <code>*.falcon.example.falcon.dedyn.io.</code>.
+          To get classical signatures, try <code>rsasha256.example.falcon.dedyn.io.</code>,
+          <code>ecdsa256.example.falcon.dedyn.io.</code>, <code>ed25519.example.falcon.dedyn.io.</code>, and the like.
         </p>
         <p class="subheading font-weight-regular">
           Queries will be sent from your browser using DNS-over-HTTPS to a PowerDNS recursor with FALCON-512 support.
@@ -88,7 +88,7 @@ import {RECURSION_DESIRED} from 'dns-packet'
 
     data: () => ({
       qtype: 'TXT',
-      qname: 'falcon.example.',
+      qname: 'falcon.example.falcon.dedyn.io',
       q: '',
       r_text: [],
       working: false,
