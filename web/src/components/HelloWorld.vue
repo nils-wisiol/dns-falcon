@@ -30,7 +30,7 @@
           The recursor will query our PowerDNS authoritative DNS server (again, with FALCON-512 support), to get your
           reponse.
           The recursor will then validate the signature and send the result to your browser.
-          All query are send with the <code>DNSSEC_OK</code> flag (<code>+dnssec</code> in dig), so you will see
+          All queries are send with the <code>DNSSEC_OK</code> flag (<code>+dnssec</code> in dig), so you will see
           <code>RRSIG</code> and <code>NSEC</code>/<code>NSEC3</code> records the the respones.
         </p>
         <p>
