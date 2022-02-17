@@ -44,3 +44,34 @@ services:
     networks:
       internal:
         ipv4_address: 172.20.53.102
+
+  dnsdist:
+    build:
+      context: pdns
+      dockerfile: Dockerfile-dnsdist
+    volumes:
+      - ./dnsdist.conf:/etc/dnsdist/dnsdist.conf
+    ports:
+      - "127.0.0.1:5383:80/tcp"
+    networks:
+      internal:
+        ipv4_address: 172.20.53.103
+
+  www:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "81:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      internal:
+        ipv4_address: 172.20.53.200
+
+
+volumes:
+  caddy_data:
+  caddy_config:

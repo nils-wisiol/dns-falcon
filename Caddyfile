@@ -1,0 +1,8 @@
+{
+    auto_https disable_redirects
+    local_certs
+}
+
+falcon.dedyn.io:80, falcon.dedyn.io:443, localhost:80, localhost:443 {
+    reverse_proxy /dns-query 172.20.53.103:80
+}
