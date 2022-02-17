@@ -112,7 +112,7 @@ import {RECURSION_DESIRED} from 'dns-packet'
               flags: 1 << 15, // DNSSEC_OK
             }]
         }
-        sendDohMsg(this.q, '/dns-query', 'GET', [], 1500)
+        sendDohMsg(this.q, 'https://falcon.dedyn.io/dns-query', 'GET', [], 1500)
           .then(r => {this.digest(r); this.working = false;})
           .catch(err => {this.err = err; this.working = false;})
       },
