@@ -21,9 +21,9 @@
         <p class="subheading font-weight-regular">
           Send queries to our post-quantum enabled verifying resolver!
           To obtain responses signed with FALCON-512, query <code>A</code>, <code>AAAA</code>, and <code>TXT</code>
-          records at <code>falcon.example.falcon.dedyn.io.</code> and <code>*.falcon.example.falcon.dedyn.io.</code>.
-          To get classical signatures, try <code>rsasha256.example.falcon.dedyn.io.</code>,
-          <code>ecdsa256.example.falcon.dedyn.io.</code>, <code>ed25519.example.falcon.dedyn.io.</code>, and the like.
+          records at <code>falcon.example.pq-dnssec.dedyn.io.</code> and <code>*.falcon.example.pq-dnssec.dedyn.io.</code>.
+          To get classical signatures, try <code>rsasha256.example.pq-dnssec.dedyn.io.</code>,
+          <code>ecdsa256.example.pq-dnssec.dedyn.io.</code>, <code>ed25519.example.pq-dnssec.dedyn.io.</code>, and the like.
         </p>
         <p class="subheading font-weight-regular">
           Queries will be sent from your browser using DNS-over-HTTPS to a PowerDNS recursor with FALCON-512 support.
@@ -88,7 +88,7 @@ import {RECURSION_DESIRED} from 'dns-packet'
 
     data: () => ({
       qtype: 'TXT',
-      qname: 'falcon.example.falcon.dedyn.io',
+      qname: 'falcon.example.pq-dnssec.dedyn.io',
       q: '',
       r_text: [],
       working: false,
@@ -113,7 +113,7 @@ import {RECURSION_DESIRED} from 'dns-packet'
               flags: 1 << 15, // DNSSEC_OK
             }]
         }
-        sendDohMsg(this.q, 'https://falcon.dedyn.io/dns-query', 'GET', [], 1500)
+        sendDohMsg(this.q, 'https://pq-dnssec.dedyn.io/dns-query', 'GET', [], 1500)
           .then(r => {this.digest(r); this.working = false;})
           .catch(err => {this.err = err; this.working = false;})
       },
@@ -175,7 +175,7 @@ import {RECURSION_DESIRED} from 'dns-packet'
             } else if (rrset.type == 'SOA') {
               // { "name": "falcon3.example", "type": "SOA", "ttl": 3600, "class": "IN", "flush": false,
               // "data": { "mname": "a.misconfigured.dns.server.invalid", "rname": "hostmaster.falcon3.example", "serial": 0, "refresh": 10800, "retry": 3600, "expire": 604800, "minimum": 3600 } }
-              // a.misconfigured.dns.server.invalid. hostmaster.falcon.example.falcon.dedyn.io. 0 10800 3600 604800 3600
+              // a.misconfigured.dns.server.invalid. hostmaster.falcon.example.pq-dnssec.dedyn.io. 0 10800 3600 604800 3600
               full_rrset_txt += `${rrset.data.mname} ${rrset.data.rname} ${rrset.data.serial} ${rrset.data.refresh} ${rrset.data.retry} ${rrset.data.expire} ${rrset.data.minimum}`
             } else if (rrset.type == 'NSEC' || rrset.type == 'NSEC3') {
               full_rrset_txt += `${rrset.data.nextDomain} ${rrset.data.rrtypes.join(' ')}`

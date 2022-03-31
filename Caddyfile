@@ -1,5 +1,7 @@
-falcon.dedyn.io:80, falcon.dedyn.io:443, localhost:80, localhost:443 {
+{$DESEC_DOMAIN}:80, {$DESEC_DOMAIN}:443, localhost:80, localhost:443 {
     reverse_proxy /dns-query 172.20.53.103:80
     root * /webapp
     file_server
 }
+
+# TODO redirect DESEC_DOMAIN_REDIRECT=falcon.dedyn.io

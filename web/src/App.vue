@@ -17,7 +17,7 @@
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
       <v-btn
-        href="https://dnsviz.net/d/falcon.example.falcon.dedyn.io/dnssec/"
+        href="https://dnsviz.net/d/falcon.example.pq-dnssec.dedyn.io/dnssec/"
         target="_blank"
         text
       >

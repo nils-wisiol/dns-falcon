@@ -68,6 +68,9 @@ services:
       - caddy_data:/data
       - caddy_config:/config
       - ./web/dist:/webapp
+    environment:
+      - DESEC_DOMAIN
+      - DESEC_DOMAIN_REDIRECT
     networks:
       internal:
         ipv4_address: 172.20.53.200
