@@ -4,4 +4,6 @@
     file_server
 }
 
-# TODO redirect DESEC_DOMAIN_REDIRECT=falcon.dedyn.io
+{$DESEC_DOMAIN_REDIRECT:noop.local}:80, {$DESEC_DOMAIN_REDIRECT:noop.local}:443 {
+    redir https://{$DESEC_DOMAIN}{uri} permanent
+}
