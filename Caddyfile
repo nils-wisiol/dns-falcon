@@ -1,9 +1,9 @@
-{$DESEC_DOMAIN}:80, {$DESEC_DOMAIN}:443, localhost:80, localhost:443 {
+{$DESEC_DOMAIN}, localhost {
     reverse_proxy /dns-query 172.20.53.103:80
     root * /webapp
     file_server
 }
 
-{$DESEC_DOMAIN_REDIRECT:noop.local}:80, {$DESEC_DOMAIN_REDIRECT:noop.local}:443 {
+{$DESEC_DOMAIN_REDIRECT:noop.local} {
     redir https://{$DESEC_DOMAIN}{uri} permanent
 }
