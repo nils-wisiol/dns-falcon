@@ -30,6 +30,12 @@ jobs:
         docker --version
         docker-compose --version
 
+    - name: Cache docker images
+      uses: actions/cache@v2
+      with:
+        path: /var/lib/docker
+        key: ${{ runner.os }}-docker-images-${{ hashFiles('.gitmodules') }}
+
     - name: Build Images
       run: |
         cd $GITHUB_WORKSPACE
