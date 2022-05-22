@@ -13,7 +13,7 @@ services:
     build:
       context: pdns
       dockerfile: Dockerfile-auth
-    image: desec/pqdnssec-auth
+    image: desec/pqdnssec-auth:latest
     user: root
     volumes:
       - ./auth.conf:/etc/powerdns/pdns.d/auth.conf
@@ -31,7 +31,7 @@ services:
     build:
       context: pdns
       dockerfile: Dockerfile-recursor
-    image: desec/pqdnssec-resolver
+    image: desec/pqdnssec-resolver:latest
     user: root
     volumes:
       - ./recursor.conf:/etc/powerdns/recursor.d/recursor.conf
@@ -51,7 +51,7 @@ services:
     build:
       context: pdns
       dockerfile: Dockerfile-dnsdist
-    image: desec/pqdnssec-dnsdist
+    image: desec/pqdnssec-dnsdist:latest
     volumes:
       - ./dnsdist.conf:/etc/dnsdist/dnsdist.conf
     ports:
