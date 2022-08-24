@@ -16,7 +16,7 @@
         cols="12"
       >
         <h2 class="headline font-weight-bold mb-3">
-          Make a query
+          Make a query to our resolver
         </h2>
         <p class="subheading font-weight-regular">
           Send queries to our post-quantum enabled verifying resolver!
@@ -31,10 +31,10 @@
           reponse.
           The recursor will then validate the signature and send the result to your browser.
           All queries are send with the <code>DNSSEC_OK</code> flag (<code>+dnssec</code> in dig), so you will see
-          <code>RRSIG</code> and <code>NSEC</code>/<code>NSEC3</code> records the the respones.
+          <code>RRSIG</code> and <code>NSEC</code>/<code>NSEC3</code> records the the responses.
         </p>
         <p>
-          For more informatoin, please check out the code at
+          For more information, please check out the code at
           <a
             href="https://github.com/nils-wisiol/dns-falcon"
             target="_blank"
