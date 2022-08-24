@@ -45,7 +45,7 @@ def add_zone(name: dns.name.Name, algorithm: str, nsec: int = 1):
     assert nsec in {1, 3}
     auth("create-zone", name.to_text())
     if nsec == 3:
-        auth("set-nsec3", name.to_text())
+        auth("set-nsec3", name.to_text(), '1 0 0 -')
     for subname in ["@", "*"]:
         auth("add-record", name.to_text(), subname, "A", "127.0.0.1")
         auth("add-record", name.to_text(), subname, "A", "127.0.0.2")
